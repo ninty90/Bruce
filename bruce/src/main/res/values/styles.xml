@@ -10,6 +10,7 @@
         <item name="android:windowTitleBackgroundStyle">@style/SettingsWindowTitleBackground</item>
         <item name="android:windowTitleStyle">@style/SettingsWindowTitleText</item>
         <item name="android:windowNoTitle">false</item>
+        <item name="android:windowIsTranslucent">true</item>
     </style>
 
     <style name="SettingsWindowTitleBackground">
