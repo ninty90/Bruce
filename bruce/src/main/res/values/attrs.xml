@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="BruceStyle">
+        <attr name="bruceTitleColor" format="color|reference"/>
+        <attr name="bruceAccentColor" format="color|reference"/>
+    </declare-styleable>
+</resources>

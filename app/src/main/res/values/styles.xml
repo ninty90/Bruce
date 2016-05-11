@@ -1,0 +1,9 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="BruceTheme">
+        <!-- Customize your theme here. -->
+        <item name="bruceTitleColor">#FF0000</item>
+    </style>
+
+</resources>
