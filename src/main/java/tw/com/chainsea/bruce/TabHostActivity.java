@@ -54,7 +54,6 @@ public abstract class TabHostActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
-        setTheme(R.style.BruceTitleBarTheme);
         setContentView(R.layout.bruce_activity_tabs);
         getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.bruce_titlebar_tab);
 

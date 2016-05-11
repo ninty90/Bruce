@@ -9,15 +9,15 @@ import tw.com.chainsea.bruce.base.SingleFragmentActivity;
 import tw.com.chainsea.bruce.uitls.FilterOnView;
 
 /**
- * title bar style
+ * 继承此Activity，会显示Title区域
  * Created by 90Chris on 2014/11/7.
  */
 public abstract class TitlebarActivity extends SingleFragmentActivity {
     public abstract Fragment addFragment();
 
     /**
-     * title bar left content, if null, it will be gone
-     * @return content, appear at left area; null, the area will be null
+     * 标题栏目的左边内容，会包含一个返回箭头
+     * @return content 如果未实现，则该区域不存在
      */
     public String leftText() {
         return null;
@@ -25,6 +25,7 @@ public abstract class TitlebarActivity extends SingleFragmentActivity {
 
     public void setLeftText(String content) {
         TextView leftText = (TextView)findViewById(R.id.titlebar_left_text);
+        assert leftText != null;
         leftText.setText(content);
     }
 
@@ -36,6 +37,7 @@ public abstract class TitlebarActivity extends SingleFragmentActivity {
 
     public void setTitleText(String content) {
         TextView centerText = (TextView)findViewById(R.id.titlebar_center_text);
+        assert centerText != null;
         centerText.setText(content);
     }
 
@@ -53,13 +55,12 @@ public abstract class TitlebarActivity extends SingleFragmentActivity {
     @Override
     public void onActivityCreate() {
         requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
-        setTheme(R.style.BruceTitleBarTheme);
         setContentView(R.layout.bruce_activity_base);
         getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.bruce_titlebar_base);
 
-        /*deal with left area of title bar*/
-        TextView leftText = (TextView)findViewById(R.id.titlebar_left_text);
         if (null != leftText()) {
+            TextView leftText = (TextView)findViewById(R.id.titlebar_left_text);
+            assert leftText != null;
             leftText.setVisibility(View.VISIBLE);
             leftText.setText(leftText());
             FilterOnView.addTouchColorChange(leftText, new FilterOnView.ClickAction() {
@@ -70,9 +71,9 @@ public abstract class TitlebarActivity extends SingleFragmentActivity {
             });
         }
 
-        /*deal with right area of title bar*/
-        TextView rightText = (TextView)findViewById(R.id.titlebar_right_text);
         if (null != rightText()) {
+            TextView rightText = (TextView)findViewById(R.id.titlebar_right_text);
+            assert rightText != null;
             rightText.setVisibility(View.VISIBLE);
             rightText.setText(rightText());
             FilterOnView.addTouchColorChange(rightText, new FilterOnView.ClickAction() {
@@ -83,9 +84,9 @@ public abstract class TitlebarActivity extends SingleFragmentActivity {
             });
         }
 
-        /*deal with center area of titlebar*/
-        TextView centerText = (TextView)findViewById(R.id.titlebar_center_text);
         if (null != titleText()) {
+            TextView centerText = (TextView)findViewById(R.id.titlebar_center_text);
+            assert centerText != null;
             centerText.setVisibility(View.VISIBLE);
             centerText.setText(titleText());
         }
