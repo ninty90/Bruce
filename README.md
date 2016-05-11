@@ -13,7 +13,7 @@ allprojects {
 }
 
 dependencies {
-        compile 'com.github.ninty90:Bruce:0.0.1'
+        compile 'com.github.ninty90:Bruce:0.0.2'
 }
 ```
 
