@@ -18,12 +18,12 @@
         android:layout_marginRight="120dp"
         android:layout_marginEnd="120dp"
         android:gravity="center_vertical"
-        android:textColor="@color/white"
+        android:textColor="@color/bruce_white"
         android:textSize="16sp"
         android:drawablePadding="5dp"
         android:singleLine="true"
-        android:drawableLeft="@drawable/arrow_back_white"
-        android:drawableStart="@drawable/arrow_back_white"
+        android:drawableLeft="@drawable/bruce_arrow_back_white"
+        android:drawableStart="@drawable/bruce_arrow_back_white"
         android:text="" />
     <TextView
         android:id="@+id/titlebar_right_text"
@@ -34,7 +34,7 @@
         android:layout_alignParentEnd="true"
         android:gravity="center_vertical"
         android:textSize="20sp"
-        android:textColor="@color/white"
+        android:textColor="@color/bruce_white"
         android:paddingStart="5dp"
         android:paddingLeft="5dp"
         android:paddingRight="20dp"
@@ -48,5 +48,5 @@
         android:layout_centerInParent="true"
         android:gravity="center_vertical"
         android:textSize="18sp"
-        android:textColor="@color/white"/>
+        android:textColor="@color/bruce_white"/>
 </RelativeLayout>

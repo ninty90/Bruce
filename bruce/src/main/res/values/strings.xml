@@ -1,2 +1,5 @@
 <resources>
+    <string name="bruce_save_to_phone">儲存到手機</string>
+    <string name="bruce_photo_save">已儲存至%1$s</string>
+    <string name="bruce_photo_save_failed">圖片存儲失敗</string>
 </resources>

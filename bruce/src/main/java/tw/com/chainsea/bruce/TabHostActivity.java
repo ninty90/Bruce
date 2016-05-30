@@ -59,7 +59,7 @@ public abstract class TabHostActivity extends FragmentActivity {
 
         FragmentTabHost mTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
         mTabHost.setup(this, getSupportFragmentManager(), R.id.tabs_content);
-        mTabHost.setBackgroundResource(R.drawable.tabhost_bg);
+        mTabHost.setBackgroundResource(R.drawable.bruce_tabhost_bg);
         final Map<String, TabsInfo> tabsMap = tabsInfoMap();
         for ( String key : tabsMap.keySet()) {
             View view = LayoutInflater.from(this).inflate(R.layout.bruce_tab_item, null);

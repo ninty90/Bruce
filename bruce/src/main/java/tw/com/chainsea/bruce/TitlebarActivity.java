@@ -6,7 +6,8 @@ import android.view.Window;
 import android.widget.TextView;
 
 import tw.com.chainsea.bruce.base.SingleFragmentActivity;
-import tw.com.chainsea.bruce.uitls.FilterOnView;
+import tw.com.chainsea.bruce.util.FilterOnView;
+
 
 /**
  * 继承此Activity，会显示Title区域
