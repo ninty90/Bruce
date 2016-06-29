@@ -17,6 +17,12 @@ public class ImageViewerActivity extends FullScreenActivity {
     ImageViewerFragment mFragment = null;
 
     @Override
+    public void init() {
+        super.init();
+        overridePendingTransition(R.anim.bruce_zoom_enter, R.anim.bruce_fade_out);
+    }
+
+    @Override
     public Fragment addFragment() {
         return mFragment;
     }
@@ -33,6 +39,4 @@ public class ImageViewerActivity extends FullScreenActivity {
         finish();
         overridePendingTransition(R.anim.bruce_fade_in, R.anim.bruce_zoom_exit);
     }
-
-
 }

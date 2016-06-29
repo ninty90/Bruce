@@ -1,13 +1,16 @@
 package tw.com.chainsea.bruce_example;
 
 import android.content.Intent;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 
 import java.util.ArrayList;
 
+import tw.com.chainsea.bruce.BruceImageViewer;
 import tw.com.chainsea.bruce.TitlebarActivity;
 import tw.com.chainsea.bruce.base.BruceConstant;
 import tw.com.chainsea.bruce.util.ImageViewerActivity;
+import tw.com.chainsea.bruce.util.ImageViewerFragment;
 
 public class MainActivity extends TitlebarActivity {
 
