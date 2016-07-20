@@ -1,5 +1,6 @@
 package tw.com.chainsea.bruce.dialog;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.DisplayMetrics;
@@ -16,20 +17,23 @@ import tw.com.chainsea.bruce.R;
  * ListDialog
  * Created by 90Chris on 2014/12/1.
  */
-public class ListDialog {
-    FlatDialog mFlatDialog;
+public class ListDialog extends Dialog {
     Context mContext;
     LinearLayout linearLayout;
     float density;
 
     public ListDialog(Context context) {
+        super(context, R.style.BruceDialog);
+        setCanceledOnTouchOutside(true);
+
         mContext = context;
         linearLayout = new LinearLayout(mContext);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
         DisplayMetrics displayMetrics = mContext.getResources().getDisplayMetrics();
         density = displayMetrics.density;
         linearLayout.setMinimumWidth((displayMetrics.widthPixels * 3) / 4);
-        mFlatDialog = new FlatDialog(mContext, linearLayout);
+
+        setContentView(linearLayout);
     }
 
     /**
@@ -37,7 +41,7 @@ public class ListDialog {
      * @param content content
      * @param action action
      */
-    public void addContent(String content, final ListAction action) {
+    public void addItem(String content, final ListAction action) {
         TextView textView = new TextView(mContext);
         textView.setBackgroundDrawable(mContext.getResources().getDrawable(R.drawable.bruce_clickable_bg));
         textView.setTextColor(Color.BLACK);
@@ -48,8 +52,10 @@ public class ListDialog {
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                action.onClick();
-                mFlatDialog.dismiss();
+                if ( action != null && action.onClick() ) {
+                    return;
+                }
+                dismiss();
             }
         });
         linearLayout.addView(textView);
@@ -60,14 +66,7 @@ public class ListDialog {
         linearLayout.addView(imageView);
     }
 
-    /**
-     * display dialog
-     */
-    public void show(){
-        mFlatDialog.show();
-    }
-
     public interface ListAction{
-        void onClick();
+        boolean onClick();
     }
 }

@@ -5,13 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -21,10 +19,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
 
 import cn.hadcn.davinci.DaVinci;
+import cn.hadcn.davinci.image.base.ImageEntity;
 import tw.com.chainsea.bruce.R;
 import tw.com.chainsea.bruce.dialog.ListDialog;
 import tw.com.chainsea.bruce.view.HackyViewPager;
@@ -158,12 +156,12 @@ public class ImageViewerFragment extends DialogFragment {
     }
 
     private void afterPicLongClick(String url) {
-        ByteBuffer byteBuffer = DaVinci.with(getActivity()).getImageLoader().getImage(url);
-        final Bitmap bitmap = BitmapFactory.decodeByteArray(byteBuffer.array(), 0, byteBuffer.capacity());
+        ImageEntity entity = DaVinci.with(getActivity()).getImageLoader().getImage(url);
+        final Bitmap bitmap = entity.getBitmap();
         ListDialog listDialog = new ListDialog(getActivity());
-        listDialog.addContent(getActivity().getString(R.string.bruce_save_to_phone), new ListDialog.ListAction() {
+        listDialog.addItem(getActivity().getString(R.string.bruce_save_to_phone), new ListDialog.ListAction() {
             @Override
-            public void onClick() {
+            public boolean onClick() {
                 String name = System.currentTimeMillis() + ".jpg";
                 ContentResolver cr = getActivity().getContentResolver();
                 String photoUri = MediaStore.Images.Media.insertImage(cr, bitmap, name, "this is a Photo");
@@ -178,6 +176,7 @@ public class ImageViewerFragment extends DialogFragment {
                 } else {
                     Toast.makeText(getActivity(), getString(R.string.bruce_photo_save_failed), Toast.LENGTH_SHORT).show();
                 }
+                return false;
             }
         });
         listDialog.show();

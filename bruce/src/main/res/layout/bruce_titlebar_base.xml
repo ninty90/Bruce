@@ -25,20 +25,13 @@
         android:drawableLeft="@drawable/bruce_arrow_back_white"
         android:drawableStart="@drawable/bruce_arrow_back_white"
         android:text="" />
-    <TextView
+    <FrameLayout
         android:id="@+id/titlebar_right_text"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:visibility="gone"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:gravity="center_vertical"
-        android:textSize="20sp"
-        android:textColor="@color/bruce_white"
-        android:paddingStart="5dp"
-        android:paddingLeft="5dp"
-        android:paddingRight="20dp"
-        android:paddingEnd="20dp"/>
+        android:layout_alignParentEnd="true"/>
     <TextView
         android:id="@+id/titlebar_center_text"
         android:layout_width="wrap_content"

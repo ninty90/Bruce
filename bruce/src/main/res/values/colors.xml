@@ -5,4 +5,5 @@
     <color name="bruce_grey_light">#DDDDDD</color>
     <color name="bruce_grey_deep">#888888</color>
     <color name="bruce_black_light">#303D4F</color>
+    <color name="bruce_transparent">#00000000</color>
 </resources>

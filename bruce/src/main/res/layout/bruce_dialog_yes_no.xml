@@ -45,6 +45,6 @@
             android:layout_weight="1"
             android:textSize="15sp"
             android:textColor="@color/bruce_black_light"
-            android:text="確認"/>
+            tools:text="確認"/>
     </LinearLayout>
 </LinearLayout>

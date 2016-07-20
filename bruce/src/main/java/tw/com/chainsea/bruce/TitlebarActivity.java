@@ -3,6 +3,7 @@ package tw.com.chainsea.bruce;
 import android.support.v4.app.Fragment;
 import android.view.View;
 import android.view.Window;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import tw.com.chainsea.bruce.base.SingleFragmentActivity;
@@ -30,7 +31,7 @@ public abstract class TitlebarActivity extends SingleFragmentActivity {
         leftText.setText(content);
     }
 
-    public String rightText() {
+    public View rightView() {
         return null;
     }
 
@@ -72,14 +73,14 @@ public abstract class TitlebarActivity extends SingleFragmentActivity {
             });
         }
 
-        if (null != rightText()) {
-            TextView rightText = (TextView)findViewById(R.id.titlebar_right_text);
+        if (null != rightView()) {
+            FrameLayout rightText = (FrameLayout)findViewById(R.id.titlebar_right_text);
             assert rightText != null;
             rightText.setVisibility(View.VISIBLE);
-            rightText.setText(rightText());
-            FilterOnView.addTouchColorChange(rightText, new FilterOnView.ClickAction() {
+            rightText.addView(rightView());
+            rightText.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClickAction() {
+                public void onClick(View v) {
                     rightAction();
                 }
             });

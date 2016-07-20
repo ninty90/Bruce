@@ -1,5 +1,6 @@
 package tw.com.chainsea.bruce.dialog;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
@@ -11,73 +12,63 @@ import tw.com.chainsea.bruce.R;
  * confirm dialog style, it has content, ok and cancel button
  * Created by 90Chris on 2014/12/1.
  */
-public class YesNoDialog {
-    FlatDialog flatDialog;
+public class YesNoDialog extends Dialog {
+    private TextView tvYes;
+    private TextView tvNo;
 
     public YesNoDialog(Context context) {
-        flatDialog = new FlatDialog(context, R.layout.bruce_dialog_yes_no);
-        flatDialog.findViewById(R.id.dialog_confirm_ok).setOnClickListener(new View.OnClickListener() {
+        super(context, R.style.BruceDialog);
+        setContentView(R.layout.bruce_dialog_yes_no);
+        setCanceledOnTouchOutside(true);
+        tvYes = (TextView)findViewById(R.id.dialog_confirm_ok);
+        tvYes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mConfirmAction.onConfirm();
-                flatDialog.dismiss();
+                if ( mYesAction != null && mYesAction.onYes() ) {
+                    return;
+                }
+                dismiss();
             }
         });
-        flatDialog.findViewById(R.id.dialog_confirm_cancel).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mConfirmAction.onCancel();
-                flatDialog.dismiss();
-            }
-        });
-    }
 
-    /**
-     * is dialog can be dismissed,
-     * default, it can be dismissed
-     * @param b
-     */
-    public void enableDismiss(boolean b){
-        flatDialog.setCanceledOnTouchOutside(b);
+        tvNo = (TextView)findViewById(R.id.dialog_confirm_cancel);
+        tvNo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if ( mNoAction != null && mNoAction.onNo() ) {
+                    return;
+                }
+                dismiss();
+            }
+        });
     }
 
     /**
      * set the dialog content
-     * @param content
+     * @param content content
      */
     public void setContent(String content) {
-        TextView textView = (TextView)flatDialog.findViewById(R.id.dialog_confirm_content);
+        TextView textView = (TextView)findViewById(R.id.dialog_confirm_content);
         textView.setText(content);
     }
 
-    public void setConfirmContent(String content) {
-        TextView textView = (TextView)flatDialog.findViewById(R.id.dialog_confirm_ok);
-        textView.setText(content);
+    public void setYes(String content, YesAction yesAction) {
+        tvYes.setText(content);
+        mYesAction = yesAction;
     }
 
-    public void setCancelContent(String content) {
-        TextView textView = (TextView)flatDialog.findViewById(R.id.dialog_confirm_cancel);
-        textView.setText(content);
+    public void setNo(String content, NoAction noAction) {
+        tvNo.setText(content);
+        mNoAction = noAction;
     }
 
-    /**
-     * define the action after the ok button was clicked
-     * @param confirmAction
-     */
-    public void setConfirmAction(ConfirmAction confirmAction) {
-        mConfirmAction = confirmAction;
+    private YesAction mYesAction;
+    public interface YesAction {
+        boolean onYes();
     }
 
-    /**
-     * display dialog
-     */
-    public void show() {
-        flatDialog.show();
-    }
-
-    private ConfirmAction mConfirmAction;
-    public static interface ConfirmAction{
-        void onConfirm();
-        void onCancel();
+    private NoAction mNoAction;
+    public interface NoAction {
+        boolean onNo();
     }
 }
