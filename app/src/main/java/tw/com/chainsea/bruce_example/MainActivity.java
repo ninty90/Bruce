@@ -24,6 +24,8 @@ public class MainActivity extends TitlebarActivity {
     public View rightView() {
         TextView textView = new TextView(this);
         textView.setTextColor(Color.WHITE);
+        textView.setTextSize(20);
+        textView.setPadding(10, 0, 10, 0);
         textView.setText("跳");
         return textView;
     }

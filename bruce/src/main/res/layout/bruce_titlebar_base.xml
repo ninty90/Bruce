@@ -25,10 +25,11 @@
         android:drawableLeft="@drawable/bruce_arrow_back_white"
         android:drawableStart="@drawable/bruce_arrow_back_white"
         android:text="" />
-    <FrameLayout
+    <RelativeLayout
         android:id="@+id/titlebar_right_text"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:gravity="center"
         android:visibility="gone"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"/>

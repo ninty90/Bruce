@@ -21,10 +21,13 @@ public  abstract class FullScreenActivity extends SingleFragmentActivity {
     }
 
     @Override
-    public void onActivityCreate() {
+    protected void setFeature() {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+    }
+
+    @Override
+    public void onActivityCreate() {
         setContentView(R.layout.bruce_activity_base);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
     }
 }

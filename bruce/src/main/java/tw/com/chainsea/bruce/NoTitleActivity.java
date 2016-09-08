@@ -13,13 +13,17 @@ public abstract class NoTitleActivity extends SingleFragmentActivity {
     public abstract Fragment addFragment();
 
     @Override
-    public Fragment createFragment() {
+    protected Fragment createFragment() {
         return addFragment();
     }
 
     @Override
-    public void onActivityCreate() {
+    protected void setFeature() {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+    }
+
+    @Override
+    protected void onActivityCreate() {
         setContentView(R.layout.bruce_activity_base);
     }
 }

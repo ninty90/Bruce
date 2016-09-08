@@ -18,24 +18,27 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
      * create fragment
      * @return fragment which is created by developer
      */
-    public abstract Fragment createFragment();
+    protected abstract Fragment createFragment();
 
     /**
      * deal activity things before fragment added
      */
-    public abstract void onActivityCreate();
+    protected abstract void onActivityCreate();
 
-    public void init() {}
+    protected abstract void setFeature();
+
+    protected void init() {}
 
     /**
      * @return false, do not add fragment; true, add fragment
      */
-    public boolean isAddFragment() {
+    protected boolean isAddFragment() {
         return true;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        setFeature();
         super.onCreate(savedInstanceState);
         init();
         onActivityCreate();
@@ -64,7 +67,7 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
      * 提供此方法目的，是让上层Activity在配置变化后可以调用fragment方法
      * @return fragment
      */
-    public Fragment getFragment(){
+    protected Fragment getFragment(){
         return manager.findFragmentById(R.id.fragmentContainer);
     }
 }

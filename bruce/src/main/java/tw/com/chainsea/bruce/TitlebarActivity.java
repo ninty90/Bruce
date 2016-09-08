@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 import android.view.Window;
 import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import tw.com.chainsea.bruce.base.SingleFragmentActivity;
@@ -53,10 +54,13 @@ public abstract class TitlebarActivity extends SingleFragmentActivity {
         return addFragment();
     }
 
+    @Override
+    protected void setFeature() {
+        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+    }
 
     @Override
     public void onActivityCreate() {
-        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
         setContentView(R.layout.bruce_activity_base);
         getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.bruce_titlebar_base);
 
@@ -74,7 +78,7 @@ public abstract class TitlebarActivity extends SingleFragmentActivity {
         }
 
         if (null != rightView()) {
-            FrameLayout rightText = (FrameLayout)findViewById(R.id.titlebar_right_text);
+            RelativeLayout rightText = (RelativeLayout)findViewById(R.id.titlebar_right_text);
             assert rightText != null;
             rightText.setVisibility(View.VISIBLE);
             rightText.addView(rightView());
