@@ -19,6 +19,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 
 import cn.hadcn.davinci.DaVinci;
@@ -112,7 +114,8 @@ public class ImageViewerFragment extends DialogFragment {
                     getActivity().overridePendingTransition(R.anim.bruce_fade_in, R.anim.bruce_zoom_exit);
                 }
             });
-            DaVinci.with(getActivity()).getImageLoader().load(mImageUrls.get(position)).into(photoView);
+//            DaVinci.with(getActivity()).getImageLoader().load(mImageUrls.get(position)).into(photoView);
+            Glide.with(getActivity()).load(mImageUrls.get(position)).into(photoView);
 
             photoView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
