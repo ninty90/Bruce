@@ -109,4 +109,8 @@ public abstract class TabHostActivity extends FragmentActivity {
             imageView.setVisibility(View.GONE);
         }
     }
+
+    public ImageView getRightView() {
+        return (ImageView)findViewById(R.id.tab_title_layout_right);
+    }
 }
