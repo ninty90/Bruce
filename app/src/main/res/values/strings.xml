@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Bruce-example</string>
+    <string name="topic">专题</string>
+    <string name="nice">精选</string>
 </resources>

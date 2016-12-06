@@ -1,12 +1,12 @@
 package tw.com.chainsea.bruce_example;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import tw.com.chainsea.bruce.dialog.ListDialog;
 import tw.com.chainsea.bruce.dialog.YesNoDialog;
@@ -33,14 +33,20 @@ public class MainFragment extends Fragment implements View.OnClickListener {
             case R.id.dialog_confirm:
                 YesNoDialog dialog = new YesNoDialog(getContext());
                 dialog.setCanceledOnTouchOutside(false);
+                dialog.setContent("go to SecondActivity");
                 dialog.setYes("确定", new YesNoDialog.YesAction() {
                     @Override
                     public boolean onYes() {
-                        Toast.makeText(getContext(), "yes clicked", Toast.LENGTH_SHORT).show();
+                        getActivity().startActivity(new Intent(getActivity(), SecondActivity.class));
                         return false;
                     }
                 });
-                dialog.setContent("222222");
+                dialog.setNo("取消", new YesNoDialog.NoAction() {
+                    @Override
+                    public boolean onNo() {
+                        return false;
+                    }
+                });
                 dialog.show();
                 break;
             case R.id.dialog_list:
