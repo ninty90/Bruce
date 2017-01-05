@@ -19,17 +19,16 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.Target;
-
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
+import cn.hadcn.davinci.DaVinci;
+import cn.hadcn.davinci.image.base.ImageEntity;
 import tw.com.chainsea.bruce.R;
 import tw.com.chainsea.bruce.dialog.ListDialog;
 import tw.com.chainsea.bruce.view.HackyViewPager;
 import tw.com.chainsea.bruce.view.photoview.PhotoView;
 import tw.com.chainsea.bruce.view.photoview.PhotoViewAttacher;
+
 
 /**
  * ImageViewerFragment
@@ -43,7 +42,6 @@ public class ImageViewerFragment extends DialogFragment {
 
     final static String INTENT_URLS = "urls";
     final static String INTENT_POSITION = "pos";
-    private View mView;
 
     public static ImageViewerFragment newInstance(ArrayList<String> imageUrls, int currentItem) {
         Bundle args = new Bundle();
@@ -63,10 +61,10 @@ public class ImageViewerFragment extends DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.bruce_image_viewer, container, false);
-        ViewPager mViewPager = (HackyViewPager) mView.findViewById(R.id.image_viewer_viewpager);
+        View view = inflater.inflate(R.layout.bruce_image_viewer, container, false);
+        ViewPager mViewPager = (HackyViewPager) view.findViewById(R.id.image_viewer_viewpager);
         totalPages = mImageUrls.size();
-        LinearLayout bottomLayout = (LinearLayout) mView.findViewById(R.id.image_viewer_bottom);
+        LinearLayout bottomLayout = (LinearLayout)view.findViewById(R.id.image_viewer_bottom);
 
         if (1 == totalPages) {
             bottomLayout.setVisibility(View.GONE);
@@ -89,8 +87,8 @@ public class ImageViewerFragment extends DialogFragment {
         mViewPager.setAdapter(new SwitchPageAdapter());
         mViewPager.setCurrentItem(mCurrentPos);
         mViewPager.setOnPageChangeListener(new PageChangeListener());
-        mView.setFocusableInTouchMode(true);
-        return mView;
+        view.setFocusableInTouchMode(true);
+        return view;
     }
 
     private class SwitchPageAdapter extends PagerAdapter {
@@ -114,8 +112,7 @@ public class ImageViewerFragment extends DialogFragment {
                     getActivity().overridePendingTransition(R.anim.bruce_fade_in, R.anim.bruce_zoom_exit);
                 }
             });
-//            DaVinci.with(getActivity()).getImageLoader().load(mImageUrls.get(position)).into(photoView);
-            Glide.with(getActivity()).load(mImageUrls.get(position)).into(photoView);
+            DaVinci.with(getActivity()).getImageLoader().load(mImageUrls.get(position)).into(photoView);
 
             photoView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
@@ -141,7 +138,6 @@ public class ImageViewerFragment extends DialogFragment {
         public void onPageScrolled(int i, float v, int i2) {
 
         }
-
         @Override
         public void onPageSelected(int arg0) {
             mCurrentPos = arg0;
@@ -159,76 +155,39 @@ public class ImageViewerFragment extends DialogFragment {
         }
     }
 
-    private void afterPicLongClick(final String url) {
-//        ImageEntity entity = DaVinci.with(getActivity()).getImageLoader().getImage(url);
+    private void afterPicLongClick(String url) {
+        ImageEntity entity = DaVinci.with(getActivity()).getImageLoader().getImage(url);
+        final Bitmap bitmap = entity.getBitmap();
         ListDialog listDialog = new ListDialog(getActivity());
         listDialog.addItem(getActivity().getString(R.string.bruce_save_to_phone), new ListDialog.ListAction() {
             @Override
             public boolean onClick() {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        saveImage(url);
-                    }
-                }).start();
+                String name = System.currentTimeMillis() + ".jpg";
+                ContentResolver cr = getActivity().getContentResolver();
+                String photoUri = MediaStore.Images.Media.insertImage(cr, bitmap, name, "this is a Photo");
+                if ( photoUri != null ) {
+                    String path = getFilePathByContentResolver(getActivity(), Uri.parse(photoUri));
+                    Toast.makeText(getActivity(), getString(R.string.bruce_photo_save, path), Toast.LENGTH_SHORT).show();
+
+                    //refresh photo viewer
+                    Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                    intent.setData(Uri.parse(photoUri));
+                    getActivity().sendBroadcast(intent);
+                } else {
+                    Toast.makeText(getActivity(), getString(R.string.bruce_photo_save_failed), Toast.LENGTH_SHORT).show();
+                }
                 return false;
             }
         });
         listDialog.show();
     }
 
-    private void saveImage(String url) {
-        String name = System.currentTimeMillis() + ".jpg";
-        ContentResolver cr = getActivity().getContentResolver();
-        String photoUri = MediaStore.Images.Media.insertImage(cr, getBitmap(url), name, "this is a Photo");
-        if (photoUri != null) {
-            String path = getFilePathByContentResolver(getActivity(), Uri.parse(photoUri));
-            showShortToast(R.string.bruce_photo_save, path);
-
-            //refresh photo viewer
-            Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-            intent.setData(Uri.parse(photoUri));
-            getActivity().sendBroadcast(intent);
-        } else {
-            showShortToast(R.string.bruce_photo_save_failed, null);
-        }
-    }
-
-    private void showShortToast(final int resId, final String path) {
-        mView.post(new Runnable() {
-            @Override
-            public void run() {
-                if (path != null) {
-                    Toast.makeText(getActivity(), getString(resId, path), Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(getActivity(), resId, Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }
-
-    private Bitmap getBitmap(final String url) {
-        Bitmap bitmap = null;
-        try {
-            bitmap = Glide.with(getActivity())
-                    .load(url)
-                    .asBitmap()
-                    .into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
-                    .get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-        return bitmap;
-    }
-
-    private String getFilePathByContentResolver(Context context, Uri uri) {
+    private  String getFilePathByContentResolver(Context context, Uri uri) {
         if (null == uri) {
             return null;
         }
         Cursor c = context.getContentResolver().query(uri, null, null, null, null);
-        String filePath = null;
+        String filePath  = null;
         if (null == c) {
             throw new IllegalArgumentException(
                     "Query on " + uri + " returns null result.");

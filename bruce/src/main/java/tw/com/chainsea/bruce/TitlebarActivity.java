@@ -3,11 +3,11 @@ package tw.com.chainsea.bruce;
 import android.support.v4.app.Fragment;
 import android.view.View;
 import android.view.Window;
-import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import tw.com.chainsea.bruce.base.SingleFragmentActivity;
+import tw.com.chainsea.bruce.util.ActivityController;
 import tw.com.chainsea.bruce.util.FilterOnView;
 
 
@@ -63,7 +63,7 @@ public abstract class TitlebarActivity extends SingleFragmentActivity {
     public void onActivityCreate() {
         setContentView(R.layout.bruce_activity_base);
         getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.bruce_titlebar_base);
-
+        ActivityController.addActivity(this);
         if (null != leftText()) {
             TextView leftText = (TextView)findViewById(R.id.titlebar_left_text);
             assert leftText != null;
@@ -96,5 +96,11 @@ public abstract class TitlebarActivity extends SingleFragmentActivity {
             centerText.setVisibility(View.VISIBLE);
             centerText.setText(titleText());
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ActivityController.removeActivity(this);
     }
 }
