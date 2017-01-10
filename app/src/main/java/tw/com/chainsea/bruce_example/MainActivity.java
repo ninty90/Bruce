@@ -1,19 +1,40 @@
 package tw.com.chainsea.bruce_example;
 
+import android.Manifest;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import tw.com.chainsea.bruce.TitlebarActivity;
 import tw.com.chainsea.bruce.base.BruceConstant;
+import tw.com.chainsea.bruce.ife.PermissionListener;
 import tw.com.chainsea.bruce.util.ImageViewerActivity;
 
 public class MainActivity extends TitlebarActivity {
 
+
+    @Override
+    protected void init() {
+        super.init();
+        requestRuntimePermission(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, new PermissionListener() {
+            @Override
+            public void onGranted() {
+                Toast.makeText(MainActivity.this, "permission granted", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onDenied(List<String> permissionList) {
+                Toast.makeText(MainActivity.this, "permission denied", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+    }
 
     @Override
     public Fragment addFragment() {
