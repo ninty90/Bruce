@@ -90,7 +90,6 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
      * @param listener    回调接口
      */
     public void requestRuntimePermission(String[] permissions, PermissionListener listener) {
-
         mListener = listener;
         List<String> permissionList = new ArrayList<>();
         for (String permission : permissions) {
@@ -100,8 +99,6 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
         }
         if (!permissionList.isEmpty()) {
             ActivityCompat.requestPermissions(this, permissionList.toArray(new String[permissionList.size()]), 1);
-        } else {
-            mListener.onGranted();
         }
     }
 
