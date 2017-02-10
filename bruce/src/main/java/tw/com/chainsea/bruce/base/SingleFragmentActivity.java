@@ -99,6 +99,8 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
         }
         if (!permissionList.isEmpty()) {
             ActivityCompat.requestPermissions(this, permissionList.toArray(new String[permissionList.size()]), 1);
+        } else {
+            mListener.onGranted();
         }
     }
 
